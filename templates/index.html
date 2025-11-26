@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>계산기</title>
+</head>
+<body>
+<h2>일반 계산기 / 공학 계산기 / 진수 계산기</h2>
+
+<!-- Flash 메시지 -->
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul>
+      {% for msg in messages %}
+        <li>{{ msg }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<hr>
+
+<!-- 일반/공학 계산기 -->
+<form action="/calc" method="POST">
+    <input type="text" name="expression" placeholder="수식 입력 예: (3+2)*5">
+    <select name="mode">
+        <option value="basic">일반</option>
+        <option value="sci">공학</option>
+    </select>
+    <button type="submit">계산</button>
+</form>
+
+<hr>
+
+<!-- 진수 계산기 -->
+<form action="/base_calc" method="POST">
+    <input type="text" name="expression" placeholder="예: bin 10 / 16to10 FF">
+    <button type="submit">진수 계산</button>
+</form>
+
+<hr>
+
+<h3>📌 일반 계산기 이력</h3>
+<form action="/history/clear" method="POST">
+    <button type="submit">삭제</button>
+</form>
+<table border="1">
+    <tr><th>ID</th><th>Expression</th><th>Result</th><th>Time</th></tr>
+    {% for row in rows_basic %}
+    <tr>
+        <td>{{ row.id }}</td>
+        <td>{{ row.expression }}</td>
+        <td>{{ row.result }}</td>
+        <td>{{ row.created_at }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<hr>
+
+<h3>📌 공학 계산기 이력</h3>
+<form action="/sci_history/clear" method="POST">
+    <button type="submit">삭제</button>
+</form>
+<table border="1">
+    <tr><th>ID</th><th>Expression</th><th>Result</th><th>Time</th></tr>
+    {% for row in rows_sci %}
+    <tr>
+        <td>{{ row.id }}</td>
+        <td>{{ row.expression }}</td>
+        <td>{{ row.result }}</td>
+        <td>{{ row.created_at }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<hr>
+
+<h3>📌 진수 계산기 이력</h3>
+<form action="/base_history/clear" method="POST">
+    <button type="submit">삭제</button>
+</form>
+<table border="1">
+    <tr><th>ID</th><th>Expression</th><th>Result</th><th>Time</th></tr>
+    {% for row in rows_base %}
+    <tr>
+        <td>{{ row.id }}</td>
+        <td>{{ row.expression }}</td>
+        <td>{{ row.result }}</td>
+        <td>{{ row.created_at }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
